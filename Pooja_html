@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>माँ की पुकार - पूजा पेज</title>
+  <style>
+    body{font-family: "Noto Sans Devanagari", sans-serif; margin:0; padding:20px; text-align:center;
+      background: linear-gradient(to bottom,#ffd89b,#ffb347); min-height:100vh;}
+    h1{color:#c62828; font-size:34px; margin:6px 0;}
+    h2{color:#6a1b9a; margin:6px 0 18px;}
+    .card{max-width:680px; margin:0 auto; padding:18px; background:rgba(255,255,255,0.95);
+          border-radius:18px; box-shadow:0 8px 24px rgba(0,0,0,0.15);}
+    .deity-img{width:100%; height:auto; max-height:420px; object-fit:cover; border-radius:14px; box-shadow:0 6px 18px rgba(0,0,0,0.2);}
+    .grid{display:grid; grid-template-columns:repeat(2,1fr); gap:18px; margin-top:20px;}
+    .thumb{background:#fde7cf; padding:12px; border-radius:14px; box-shadow:0 6px 12px rgba(0,0,0,0.08);}
+    .thumb img{width:100%; height:150px; object-fit:cover; border-radius:10px;}
+    .paduka-btn{display:inline-block; margin-top:20px; padding:14px 22px; background:#ff7043; color:#fff;
+                border-radius:28px; text-decoration:none; font-weight:600; box-shadow:0 6px 12px rgba(0,0,0,0.18);}
+    .paduka-btn:active{transform:translateY(2px);}
+    footer{margin-top:28px; color:#4e342e; font-weight:bold;}
+    .err{color:#b00020; margin-top:12px;}
+    /* small screens */
+    @media (max-width:480px){ .grid{grid-template-columns:1fr;}.deity-img{max-height:240px;} }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>🌺 माँ की पुकार 🌺</h1>
+    <h2>आपका स्वागत है 🙏</h2>
+
+    <!-- प्राथमिक बड़ी फोटो (स्थानीय फ़ाइल नाम देखिये) -->
+    <!-- 1) यदि आप चित्र उसी फ़ोल्डर में रखते हैं: src="maa_pooja.jpg" -->
+    <!-- 2) वैकल्पिक: अगर आप remote URL से लाना चाहें तो src="https://example.com/your.jpg" डालें -->
+    <img id="mainImg" class="deity-img" src="maa_pooja.jpg" alt="Maa Saraswati Laxmi Ganesh" />
+
+    <!-- थंबनेल/अलग देवता (चाहें तो इनको local रखें) -->
+    <div class="grid">
+      <div class="thumb">
+        <div style="font-weight:600;margin-bottom:6px;">Maa Laxmi</div>
+        <img id="t1" src="maa_laxmi.jpg" alt="Maa Laxmi">
+      </div>
+      <div class="thumb">
+        <div style="font-weight:600;margin-bottom:6px;">Maa Saraswati</div>
+        <img id="t2" src="maa_saraswati.jpg" alt="Maa Saraswati">
+      </div>
+      <div class="thumb">
+        <div style="font-weight:600;margin-bottom:6px;">Ganesh Ji</div>
+        <img id="t3" src="ganesh.jpg" alt="Ganesh Ji">
+      </div>
+      <div class="thumb">
+        <div style="font-weight:600;margin-bottom:6px;">Hanuman Ji</div>
+        <img id="t4" src="hanuman.jpg" alt="Hanuman Ji">
+      </div>
+    </div>
+
+    <!-- Paduka button (यहाँ paduka.png या paduka.jpg उसी folder में रखें) -->
+    <div>
+      <a id="padukaBtn" class="paduka-btn" href="index.html">🔶 चरण पादुका चिन्ह — दबाएँ और आगे बढ़ें</a>
+    </div>
+
+    <div id="msg" class="err" aria-live="polite"></div>
+
+    <footer>© Santosh Kumar Gyarasiya • ctrl+s</footer>
+  </div>
+
+<script>
+  // debugging helper: अगर इमेज नहीं मिली तो यूजर को बताना
+  const filesToCheck = [
+    {id:'mainImg', name:'maa_pooja.jpg'},
+    {id:'t1', name:'maa_laxmi.jpg'},
+    {id:'t2', name:'maa_saraswati.jpg'},
+    {id:'t3', name:'ganesh.jpg'},
+    {id:'t4', name:'hanuman.jpg'},
+  ];
+
+  function checkImages() {
+    const errors = [];
+    filesToCheck.forEach(f=>{
+      const img = document.getElementById(f.id);
+      // यदि image-load fail हुआ तो naturalWidth 0 होगा
+      img.addEventListener('error', ()=> {
+        errors.push(f.name);
+        updateMsg();
+      });
+      img.addEventListener('load', ()=> {
+        // सफल लोड
+      });
+      // यदि पहले से ही attempt हो चुका है, चेक कर लें
+      setTimeout(()=> {
+        if(img.naturalWidth === 0) {
+          // broken
+          if(!errors.includes(f.name)) errors.push(f.name);
+          updateMsg();
+        }
+      }, 600);
+    });
+
+    function updateMsg(){
+      const el = document.getElementById('msg');
+      if(errors.length===0) {
+        el.textContent = '';
+      } else {
+        el.innerHTML = "कृपया ये फ़ाइलें उसी फोल्डर में रखें (या सही नाम देकर देखें):<br><strong>"+errors.join(', ')+"</strong>";
+      }
+    }
+  }
+
+  // पेज load पर चेक करें
+  window.addEventListener('load', checkImages);
+</script>
+
+</body>
+</html>

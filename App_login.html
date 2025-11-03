@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login | Maa Ki Pukaar</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(
+        to bottom,
+        #ff9933 0%,   /* केसरिया */
+        #ffffff 50%,  /* सफेद */
+        #138808 100%  /* हरा */
+      );
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+    }
+
+    h1 {
+      color: #b71c1c;
+      margin-bottom: 5px;
+      font-size: 30px;
+      text-shadow: 1px 1px 2px #fff;
+    }
+
+    .subtitle {
+      color: #4a148c;
+      font-weight: bold;
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+      width: 300px;
+    }
+
+    h2 {
+      margin-top: 0;
+      color: #6a1b9a;
+    }
+
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    button {
+      width: 95%;
+      padding: 10px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 10px;
+      background-color: #8e24aa;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #6a1b9a;
+    }
+
+    #otp-section {
+      display: none;
+    }
+
+    p {
+      color: #333;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <h1>संतोष कुमार ग्यारसिया</h1>
+
+  <div class="subtitle">
+    जय श्री राम<br />
+    जय माँ वैष्णो<br />
+    जय बजरंगबली
+  </div>
+
+  <div class="card">
+    <h2>Login / Sign Up</h2>
+
+    <div id="login-section">
+      <label for="mobile">📱 मोबाइल नंबर:</label><br />
+      <input type="text" id="country-code" value="+91" maxlength="4" />
+      <input type="number" id="mobile" placeholder="Enter Mobile Number" /><br />
+      <button onclick="sendOTP()">Send OTP</button>
+    </div>
+
+    <div id="otp-section">
+      <label for="otp">🔢 OTP डालें:</label><br />
+      <input type="number" id="otp" placeholder="Enter 6-digit OTP" maxlength="6" />
+      <button onclick="verifyOTP()">Confirm OTP</button>
+    </div>
+
+    <p id="status"></p>
+  </div>
+
+  <script>
+    let generatedOTP = "";
+
+    function sendOTP() {
+      const mobile = document.getElementById("mobile").value;
+      const code = document.getElementById("country-code").value;
+      if (mobile.length < 10) {
+        alert("कृपया सही मोबाइल नंबर डालें!");
+        return;
+      }
+
+      // डेमो OTP
+      generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+      document.getElementById("status").innerText =
+        `OTP भेजी गई है ${code}-${mobile} पर (Demo: ${generatedOTP})`;
+
+      document.getElementById("login-section").style.display = "none";
+      document.getElementById("otp-section").style.display = "block";
+    }
+
+    function verifyOTP() {
+      const userOTP = document.getElementById("otp").value;
+
+      if (userOTP === generatedOTP) {
+        document.getElementById("status").innerText = "✅ Login Successful!";
+        setTimeout(() => {
+          window.location.href = "home.html"; // अगला पेज
+        }, 1500);
+      } else {
+        document.getElementById("status").innerText = "❌ गलत OTP, कृपया फिर प्रयास करें!";
+      }
+    }
+  </script>
+</body>
+</html>
